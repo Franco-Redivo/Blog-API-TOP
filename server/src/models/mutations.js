@@ -1,0 +1,111 @@
+const prisma = require('./client');
+
+//User mutations
+async function createUser (name, email, password){
+    await prisma.user.create({
+        data: {
+            name: name,
+            email: email,
+            password: password
+        }
+    });
+    
+}
+
+async function updateUser (id, name, email, password) {
+    await prisma.user.update({
+        where: {
+            id: id
+        },
+        data: {
+            name: name,
+            email: email,
+            password: password
+        }
+    });
+}
+
+async function deleteUser (id) {
+    await prisma.user.delete({
+        where: {
+            id: id
+        }
+    });
+}
+
+//posts mutations
+async function createPost (title, body, authorId, publishedBool){
+    await prisma.post.create({
+        data: {
+            title: title,
+            body: body,
+            authorId: authorId,
+            published: publishedBool
+        }
+    });
+    
+}
+
+async function updatePost (id, title, body, publishedBool) {
+    await prisma.post.update({
+        where: {
+            id: id
+        },
+        data: {
+            title: title,
+            body: body,
+            published: publishedBool
+        }
+    });
+}
+
+async function deletePost (id) {
+    await prisma.post.delete({
+        where: {
+            id: id
+        }
+    });
+}
+
+//comments mutations
+async function createComment (content, userId, postId){
+    await prisma.comment.create({
+        data: {
+            content: content,
+            userId: userId,
+            postId: postId
+        }
+    });
+}
+
+async function updateComment (id, content) {
+    await prisma.comment.update({
+        where: {
+            id: id
+        },
+        data: {
+            content: content
+        }
+    });
+}
+
+async function deleteComment (id) {
+    await prisma.comment.delete({
+        where: {
+            id: id
+        }
+    });
+}
+
+const mutations = {
+    createUser,
+    updateUser,
+    deleteUser,
+    createPost,
+    updatePost,
+    deletePost,
+    createComment,
+    updateComment,
+    deleteComment
+};
+module.exports = mutations;
