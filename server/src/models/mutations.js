@@ -1,26 +1,25 @@
 const prisma = require('./client');
 
 //User mutations
-async function createUser (name, email, password){
+async function createUser({ name, email, password }) {
     await prisma.user.create({
         data: {
-            name: name,
-            email: email,
-            password: password
+            name,
+            email,
+            password
         }
     });
-    
 }
 
-async function updateUser (id, name, email, password) {
+async function updateUser ({id, name, email, password}) {
     await prisma.user.update({
         where: {
             id: id
         },
         data: {
-            name: name,
-            email: email,
-            password: password
+            name,
+            email,
+            password
         }
     });
 }
@@ -34,12 +33,12 @@ async function deleteUser (id) {
 }
 
 //posts mutations
-async function createPost (title, body, authorId, publishedBool){
+async function createPost ({title, body, authorId, publishedBool}){
     await prisma.post.create({
         data: {
-            title: title,
-            body: body,
-            authorId: authorId,
+            title,
+            body,
+            authorId,
             published: publishedBool
         }
     });
@@ -52,8 +51,8 @@ async function updatePost (id, title, body, publishedBool) {
             id: id
         },
         data: {
-            title: title,
-            body: body,
+            title,
+            body,
             published: publishedBool
         }
     });
@@ -68,23 +67,23 @@ async function deletePost (id) {
 }
 
 //comments mutations
-async function createComment (content, userId, postId){
+async function createComment ({content, userId, postId}){
     await prisma.comment.create({
         data: {
-            content: content,
-            userId: userId,
-            postId: postId
+            content,
+            userId,
+            postId
         }
     });
 }
 
-async function updateComment (id, content) {
+async function updateComment ({id, content}) {
     await prisma.comment.update({
         where: {
             id: id
         },
         data: {
-            content: content
+            content
         }
     });
 }
