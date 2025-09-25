@@ -7,7 +7,7 @@ const postRouter = Router();
 
 postRouter.get('/',verifyToken, postController.getAllPosts);
 postRouter.get('/:id', postController.getPostById);
-postRouter.post('/',[verifyToken, isPostOwner], postController.createPost);
+postRouter.post('/',verifyToken, postController.createPost);
 postRouter.put('/:id',[verifyToken, isPostOwner], postController.updatePost);
 postRouter.delete('/:id',[verifyToken, isPostOwner], postController.deletePost);
 
