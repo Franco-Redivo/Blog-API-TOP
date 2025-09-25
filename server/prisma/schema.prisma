@@ -21,6 +21,7 @@ model User {
   password String
   posts    Post[]
   comments Comment[]
+  role     Role      @default(USER)
 }
 
 model Post {
@@ -43,4 +44,9 @@ model Comment {
   postId    String
   content   String
   createdAt DateTime @default(now())
+}
+
+enum Role {
+  USER
+  ADMIN
 }
