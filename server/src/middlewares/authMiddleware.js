@@ -45,7 +45,7 @@ async function isAdmin(req, res, next) {
         const userId = req.accessToken.id;
         const user = await userQueries.getUserById(userId);
         if(!user) return res.status(404).json({ message: 'User not found' });
-        if(user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
+        if(user.role !== 'ADMIN') return res.status(403).json({ message: 'Forbidden' });
         next();
     } catch (error) {
         res.status(500).json({ message: 'Internal server error' });
