@@ -12,6 +12,7 @@ async function getUserById (id) {
             id: id, 
         },
     });
+    return user;
 }
 
 async function getUserByEmail (email) {
