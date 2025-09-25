@@ -18,7 +18,7 @@ async function createComment(req, res) {
     try{
         const postId = parseInt(req.params.id);
         const post = await postQueries.getPostById(postId);
-        const userId = req.accessToken.id;
+        const userId = req.user.id;
         if(!post) return res.status(404).json({ message: 'Post not found' });
         const { content } = req.body;
         await mutations.createComment({ content,  userId, postId });

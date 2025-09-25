@@ -13,7 +13,7 @@ async function getAllPosts(req, res) {
 
 async function getPostById(req, res) {
     try{
-        const id = parseInt(req.params.id);
+        const id = req.params.id;
         const post = await postQueries.getPostById(id);
         if(!post) return res.status(404).json({ message: 'Post not found' });
         res.status(200).json(post);
@@ -24,18 +24,20 @@ async function getPostById(req, res) {
 
 async function createPost(req, res) {
     try{
+        
         const { title, body, published } = req.body;
-        const authorId = req.accessToken.id;
+        const authorId = req.user.id;
         await mutations.createPost({ title, body, authorId, published });
         res.status(201).json({ message: 'Post created successfully' });
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 }
 
 async function updatePost(req, res) {
     try{
-        const id = parseInt(req.params.id);
+        const id = req.params.id;
         const { title, body, published } = req.body;
         await mutations.updatePost(id, title, body, published);
         res.status(200).json({ message: 'Post updated successfully' });
