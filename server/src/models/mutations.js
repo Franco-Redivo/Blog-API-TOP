@@ -33,27 +33,25 @@ async function deleteUser (id) {
 }
 
 //posts mutations
-async function createPost ({title, body, authorId, publishedBool}){
+async function createPost ({title, body, authorId, published}){
     await prisma.post.create({
         data: {
             title,
             body,
             authorId,
-            published: publishedBool
+            published
         }
     });
-    
+
 }
 
-async function updatePost (id, title, body, publishedBool) {
+async function updatePost (id, data) {
     await prisma.post.update({
         where: {
             id: id
         },
         data: {
-            title,
-            body,
-            published: publishedBool
+            ...data
         }
     });
 }
@@ -77,7 +75,7 @@ async function createComment ({content, userId, postId}){
     });
 }
 
-async function updateComment ({id, content}) {
+async function updateComment (id, content) {
     await prisma.comment.update({
         where: {
             id: id
