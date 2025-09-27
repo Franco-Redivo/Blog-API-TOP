@@ -39,7 +39,11 @@ async function updatePost(req, res) {
     try{
         const id = req.params.id;
         const { title, body, published } = req.body;
-        await mutations.updatePost(id, title, body, published);
+        const data = {};
+        if(title !== undefined) data.title = title;
+        if(body !== undefined) data.body = body;
+        if(published !== undefined) data.published = published;
+        await mutations.updatePost(id, data);
         res.status(200).json({ message: 'Post updated successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Internal server error' });
@@ -48,7 +52,7 @@ async function updatePost(req, res) {
 
 async function deletePost(req, res) {
     try{
-        const id = parseInt(req.params.id);
+        const id = req.params.id;
         await mutations.deletePost(id);
         res.status(200).json({ message: 'Post deleted successfully' });
     } catch (error) {

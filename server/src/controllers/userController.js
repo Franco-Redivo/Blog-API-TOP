@@ -49,7 +49,7 @@ async function createUser(req, res) {
 
 async function updateUser(req, res) {
     try{
-        const id = parseInt(req.params.id);
+        const id = req.params.id;
         const { name, email, password } = req.body;
         await mutations.updateUser(id, name, email, password);
         res.status(200).json({ message: 'User updated successfully' });
@@ -60,7 +60,7 @@ async function updateUser(req, res) {
 
 async function deleteUser(req, res) {
     try{
-        const id = parseInt(req.params.id);
+        const id = req.params.id;
         await mutations.deleteUser(id);
         res.status(200).json({ message: 'User deleted successfully' });
     } catch (error) {
