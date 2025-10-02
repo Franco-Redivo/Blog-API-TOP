@@ -5,7 +5,9 @@ import Login from './pages/Login'
 import NavBar from './components/NavBar'
 import ProtectedRoute from './components/ProtectedRoute'
 import LoadingSpinner from './components/LoadingSpinner'
-
+import Home from './pages/Home'
+import PostDetail from './pages/PostDetail'
+import Register from './pages/Register'
 
 function App() {
   const { isAuthenticated, isLoading } = useAuth()
@@ -19,6 +21,9 @@ function App() {
       <Routes>
         <Route path="/login" element={
           isAuthenticated ? <Navigate to="/posts" replace /> : <Login />
+        } />
+        <Route path="/register" element={
+          isAuthenticated ? <Navigate to="/posts" replace /> : <Register />
         } />
         <Route path="/*" element={
           <ProtectedRoute>
