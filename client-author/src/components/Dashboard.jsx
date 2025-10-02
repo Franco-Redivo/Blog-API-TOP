@@ -104,8 +104,8 @@ function Dashboard() {
                 <label>
                   Content:
                   <textarea
-                    value={editingPost.content}
-                    onChange={(e) => setEditingPost({ ...editingPost, content: e.target.value })}
+                    value={editingPost.body}
+                    onChange={(e) => setEditingPost({ ...editingPost, body: e.target.value })}
                   />
                 </label>
               </div>
@@ -118,4 +118,4 @@ function Dashboard() {
   )
 }
 
-export default Dashboard
+export default Dashboard;
