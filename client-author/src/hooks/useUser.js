@@ -9,9 +9,7 @@ export const useLogin = () => {
     return useMutation({
         mutationFn: loginUser,
         onSuccess: (data) => {
-    
             login(data)
-            
             queryClient.setQueryData(['user'], data.user || data)
         },
         onError: (error) => {
@@ -21,16 +19,10 @@ export const useLogin = () => {
 }
 
 export const useRegister = () => {
-    const queryClient = useQueryClient()
-    const { login } = useAuth()
-    
     return useMutation({
         mutationFn: registerUser,
-        onSuccess: (data) => {
-            
-            login(data)
-            
-            queryClient.setQueryData(['user'], data.user || data)
+        onSuccess: () => {
+            // Registration successful - user will need to login manually
         },
         onError: (error) => {
             console.error('Registration failed:', error)
