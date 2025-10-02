@@ -1,4 +1,5 @@
-import { useAuth } from './hooks/useAuth'
+import { useAuth } from '../hooks/useAuth'
+import { Link } from 'react-router-dom'
 
 
 function NavBar () {
@@ -7,8 +8,8 @@ function NavBar () {
     return (
         <nav>
         <div>
-            <Link to="/">Dashboard</Link>
-            <Link to="/create">Create Post</Link>
+            <Link to="/">Home</Link>
+            <Link to="/posts">Dashboard</Link>
         </div>
         <div>
             <span>Welcome, {user?.name || user?.email}!</span>
