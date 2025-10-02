@@ -46,22 +46,25 @@ export const AuthProvider = ({ children }) => {
   }, [])
 
   const login = (authData) => {
-    const { token: authToken, user: userData } = authData
+    // Handle both 'token' and 'accessToken' fields
+    const { token: authToken, accessToken, user: userData } = authData
+    const finalToken = authToken || accessToken
     
-    if (authToken) {
-      localStorage.setItem('authToken', authToken)
-      setToken(authToken)
+    if (finalToken) {
+      localStorage.setItem('authToken', finalToken)
+      setToken(finalToken)
       
       if (userData) {
         setUser(userData)
       } else {
-        const decodedToken = decodeToken(authToken)
+        const decodedToken = decodeToken(finalToken)
         if (decodedToken) {
-          setUser({
+          const user = {
             id: decodedToken.id || decodedToken.userId || decodedToken.sub,
             email: decodedToken.email,
             name: decodedToken.name,
-          })
+          }
+          setUser(user)
         }
       }
     }
