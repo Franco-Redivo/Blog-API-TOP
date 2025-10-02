@@ -13,7 +13,7 @@ async function login(req, res) {
         if(!validPassword) return res.status(400).json({ message: 'Invalid password' });
 
         const accessToken = jwt.sign({ id: user.id, email: user.email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
-        res.status(200).json({ accessToken: accessToken });
+        res.status(200).json( { accessToken, user: { id: user.id, name: user.name, email: user.email, isAdmin: user.isAdmin } } );
     } catch (error) {
         res.status(500).json({ message: 'Internal server error' });
     }
@@ -29,7 +29,6 @@ async function register(req, res) {
         await mutations.createUser({ name, email, password: hashedPassword });
         res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
-        console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 }
