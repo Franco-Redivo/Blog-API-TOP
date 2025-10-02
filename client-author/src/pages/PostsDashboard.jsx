@@ -18,8 +18,10 @@ function PostsDashboard() {
 
         try {
             await createPostMutation.mutateAsync({
-                ...newPost,
-                userId: userId 
+                title: newPost.title,
+                body: newPost.content,    // Backend expects 'body' not 'content'
+                authorId: userId,         // Backend expects 'authorId' not 'userId'
+                published: false           // Backend requires 'published' field
             });
             setNewPost({ title: '', content: '' });
             setShowCreateForm(false);
