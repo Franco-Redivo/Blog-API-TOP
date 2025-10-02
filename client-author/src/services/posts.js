@@ -1,11 +1,11 @@
 import api from './axios';
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+const API_URL = 'http://localhost:3000/api';
 
 export const getUserPosts = async (userId) => {
     try{
-        const response = await api.get(`${API_URL}/${userId}/posts`);
+        const response = await api.get(`${API_URL}/users/${userId}/posts`);
         return response.data;
     }catch (error) {
         console.error('Error fetching user posts:', error);
