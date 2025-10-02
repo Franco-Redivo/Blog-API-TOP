@@ -6,7 +6,7 @@ function Register() {
     const registerMutation = useRegister();
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        username: '',
+        name: '',
         email: '',
         password: '',
     });
@@ -21,25 +21,25 @@ function Register() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        registerMutation.mutate(formData),{
+        
+        registerMutation.mutate(formData, {
             onSuccess: () => {
                 navigate('/login');
             },
             onError: (error) => {
                 console.error('Registration failed:', error);
             }
-        }
-
+        });
     };
 
     return (
         <form onSubmit={handleSubmit}>
             <input
                 type="text"
-                name="username"
-                value={formData.username}
+                name="name"
+                value={formData.name}
                 onChange={handleChange}
-                placeholder="Username"
+                placeholder="Name"
                 required
             />
             <input
