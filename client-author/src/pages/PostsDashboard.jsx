@@ -31,10 +31,11 @@ function PostsDashboard() {
     };
 
     return(
-        <div>
-            <div>
-                <h2>Your Posts</h2>
+        <div className="p-4 max-w-6xl mx-auto mt-6">
+            <div className="flex justify-between items-center mb-4">
+                <h2 className="text-2xl font-bold">Your Posts</h2>
                 <button 
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 md:px-4 md:py-2 rounded-md"
                     onClick={() => setShowCreateForm(!showCreateForm)}
                 >
                     {showCreateForm ? 'Cancel' : '+ New Post'}
