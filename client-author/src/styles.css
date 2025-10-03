@@ -1,0 +1,17 @@
+@import 'tailwindcss';
+
+
+
+@layer base {
+    body {
+        @apply bg-gray-100 text-gray-900;
+    }
+
+    button {
+        @apply cursor-pointer;
+    }
+
+    *{
+        @apply box-border
+    }
+}
