@@ -12,7 +12,7 @@ async function login(req, res) {
         const validPassword = await bcrypt.compare(password, user.password);
         if(!validPassword) return res.status(400).json({ message: 'Invalid password' });
 
-        const accessToken = jwt.sign({ id: user.id, email: user.email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+        const accessToken = jwt.sign({ id: user.id, email: user.email, name: user.name }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
         res.status(200).json( { accessToken, user: { id: user.id, name: user.name, email: user.email, isAdmin: user.isAdmin } } );
     } catch (error) {
         res.status(500).json({ message: 'Internal server error' });
