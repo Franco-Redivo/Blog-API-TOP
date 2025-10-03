@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
       if (decodedToken && !isTokenExpired(decodedToken)) {
         setToken(storedToken)
         setUser({
-          id: decodedToken.id || decodedToken.userId || decodedToken.sub,
+          id: decodedToken.id || decodedToken.userId,
           email: decodedToken.email,
           name: decodedToken.name,
         })
@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }) => {
         const decodedToken = decodeToken(finalToken)
         if (decodedToken) {
           const user = {
-            id: decodedToken.id || decodedToken.userId || decodedToken.sub,
+            id: decodedToken.id || decodedToken.userId,
             email: decodedToken.email,
             name: decodedToken.name,
           }
