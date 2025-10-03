@@ -1,5 +1,6 @@
 import { usePosts, useDeletePost, useUpdatePost } from '../hooks/usePosts'
 import { useState } from 'react'
+import Modal from './Modal'
 
 function Dashboard() {
   const { data: posts, isLoading, error, isError } = usePosts()
@@ -36,7 +37,7 @@ function Dashboard() {
         console.error('Failed to update post:', error)
       }
     }
-    }
+  }
 
   if (isLoading) {
     return (
@@ -64,56 +65,88 @@ function Dashboard() {
   }
 
   return (
-    <div>
-      <table>
-        <thead>
+    <div className="bg-white  rounded-lg shadow-sm border border-gray-200  overflow-hidden">
+      <table className="w-full text-sm text-left">
+        <thead className="bg-gray-50  text-xs text-gray-700 uppercase tracking-wider">
             <tr>
-                <th>Title</th>
-                <th>Status</th>
-                <th>Actions</th>
+                <th className="px-6 py-4 font-medium" scope='col'>Title</th>
+                <th className="px-6 py-4 font-medium" scope='col'>Status</th>
+                <th className="px-6 py-4 font-medium text-right" scope='col'>Actions</th>
             </tr>
         </thead>
         <tbody>
             {posts.map((post) => (
-                <tr key={post.id}>
-                    <td>{post.title}</td>
-                    <td><span>{post.published ? 'Published' : 'Draft'}</span></td>
-                    <td>
-                        <button onClick={() => handleEditPost(post.id)}>Edit</button>
-                        <button onClick={() => handleDeletePost(post.id)}>Delete</button>
+                <tr key={post.id}
+                  className='border-t border-gray-200  hover:bg-gray-50 '>
+                    <td className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap'>{post.title}</td>
+                    <td className='px-6 py-4'><span 
+                      className='inline-flex items-center px-2.5 py-0.5 rounded-full font-medium'>
+                        {post.published ? 'Published' : 'Draft'}</span></td>
+                    <td className='px-6 py-4 text-right space-x-4'>
+                        <button 
+                          className='font-medium text-primary hover:underline' 
+                          onClick={() => handleEditPost(post.id)}>
+                            Edit
+                        </button>
+                        <button 
+                          className='font-medium text-red-600 hover:underline' 
+                          onClick={() => handleDeletePost(post.id)}>
+                            Delete
+                        </button>
                     </td>
                 </tr>
             ))}
         </tbody>
       </table>
-        {showEditModal && editingPost && (
-          <div>
-            <h2>Edit Post</h2>
-            <form onSubmit={handleEditSubmit}>
-              <div>
-                <label>
-                  Title:
-                  <input
-                    type="text"
-                    value={editingPost.title}
-                    onChange={(e) => setEditingPost({ ...editingPost, title: e.target.value })}
-                  />
-                </label>
-              </div>
-              <div>
-                <label>
-                  Content:
-                  <textarea
-                    value={editingPost.body}
-                    onChange={(e) => setEditingPost({ ...editingPost, body: e.target.value })}
-                  />
-                </label>
-              </div>
-              <button type="submit">Save</button>
-              <button type="button" onClick={() => setShowEditModal(false)}>Cancel</button>
-            </form>
+      {editingPost && (
+
+      <Modal isVisible={showEditModal} onClose={() => setShowEditModal(false)}>
+        <div className='p-4 sm:p-7'>
+          <div className='flex justify-between items-start mb-6'>
+            <h2 className='text-2xl font-bold'>Edit Post</h2>
+            <button className="text-slate-500 hover:bg-slate-200 rounded-4xl p-1" onClick={() => setShowEditModal(false)}>
+              <span className="material-symbols-outlined">close</span>
+            </button>
           </div>
-        )}
+          <form onSubmit={handleEditSubmit}>
+            <div>
+              <label className='block text-md font-medium text-slate-700 mb-1'>
+                Title
+                <input
+                  className='mt-1 p-3 w-full bg-slate-100 border-slate-300  rounded-lg focus:ring-blue-400 focus:border-blue-400 text-slate-900'
+                  type="text"
+                  value={editingPost.title}
+                  onChange={(e) => setEditingPost({ ...editingPost, title: e.target.value })}
+                />
+              </label>
+            </div>
+            <div className='mt-5'>
+              <label className='block text-md font-medium text-slate-700 mb-1'>
+                Content
+                <textarea
+                  className='mt-1 w-full p-3 bg-slate-100 border-slate-300 rounded-lg focus:ring-0 text-slate-900 resize-y'
+                  value={editingPost.body}
+                  onChange={(e) => setEditingPost({ ...editingPost, body: e.target.value })}
+                />
+              </label>
+            </div>
+            <div className='flex justify-end gap-4 pt-4'>
+              <button 
+                className='px-6 py-2.5 rounded-lg text-sm font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300'
+                type="button" 
+                onClick={() => setShowEditModal(false)}>
+                  Cancel
+              </button>
+              <button 
+                className='px-6 py-2.5 rounded-lg text-sm font-semibold bg-blue-500 text-white hover:bg-blue-600'
+                type="submit">
+                  Save Changes
+              </button>
+            </div>
+          </form>
+        </div>
+      </Modal>  
+      )}
     </div>
   )
 }
