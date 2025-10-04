@@ -15,3 +15,17 @@
         @apply box-border
     }
 }
+
+@layer theme {
+    :root {
+        --color-primary: #1193d4;
+        --background-light: #f6f7f8;
+        --background-dark: #101c22;
+        --foreground-light: #111618;
+        --foreground-dark: #f0f3f4;
+        --subtle-light: #617c89;
+        --subtle-dark: #a0b1b9;
+        --border-light: #dbe2e6;
+        --border-dark: #30404a;
+    }
+}
