@@ -37,7 +37,7 @@ function Login() {
                     <h2 className='text-4xl font-bold'>Bloggr</h2>
                     <p className='text-[var(--subtle-light)]'>Welcome back! Please login to your account.</p>
                 </div>
-                <div className='bg-white border border-[var(--border-light)] p-8 rounded-xl shadow-sm'>
+                <div className='bg-white border border-[var(--border-light)] p-5 sm:p-8 rounded-xl shadow-sm'>
                     <form 
                         className=''
                         onSubmit={handleSubmit}>
@@ -70,7 +70,7 @@ function Login() {
                         <button
                          className=' mt-5 w-full bg-blue-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background-light focus:ring-primary transition-all duration-200'   
                          type="submit">
-                            Login
+                            Sign In
                         </button>
                     </form>
                 </div>
