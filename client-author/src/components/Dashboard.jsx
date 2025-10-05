@@ -1,9 +1,15 @@
 import { usePosts, useDeletePost, useUpdatePost } from '../hooks/usePosts'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import Modal from './Modal'
 
 function Dashboard() {
   const { data: posts, isLoading, error, isError } = usePosts()
+  
+  // Sort posts by creation date to maintain consistent order
+  const sortedPosts = useMemo(() => {
+    if (!posts) return []
+    return [...posts].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+  }, [posts])
   const [showEditModal, setShowEditModal] = useState(false)
   const [editingPost, setEditingPost] = useState(null)
   const deletePostMutation = useDeletePost()
@@ -20,9 +26,21 @@ function Dashboard() {
   }
 
   const handleEditPost = (postId) => {
-    const postToEdit = posts.find(post => post.id === postId)
+    const postToEdit = sortedPosts.find(post => post.id === postId)
     setEditingPost(postToEdit)
     setShowEditModal(true)
+  }
+
+  const handlePublishToggle = async (postId) => {
+    const postToUpdate = sortedPosts.find(post => post.id === postId)
+
+    if (postToUpdate) {
+      try {
+        await updatePostMutation.mutateAsync({ postId: postToUpdate.id, published: !postToUpdate.published })
+      } catch (error) {
+        console.error('Failed to update post:', error)
+      }
+    }
   }
 
   const handleEditSubmit = async (e) => {
@@ -56,7 +74,7 @@ function Dashboard() {
     )
   }
 
-  if (!posts || posts.length === 0) {
+  if (!sortedPosts || sortedPosts.length === 0) {
     return (
       <div>
         <div>No posts found. Create your first post!</div>
@@ -66,8 +84,8 @@ function Dashboard() {
 
   return (
     <div className="bg-white  rounded-lg shadow-sm border border-gray-200  overflow-hidden">
-      <table className="w-full text-sm text-left">
-        <thead className="bg-gray-50  text-xs text-gray-700 uppercase tracking-wider">
+      <table className="w-full text-md text-left">
+        <thead className="bg-gray-50  text-md text-gray-700 uppercase tracking-wider">
             <tr>
                 <th className="px-6 py-4 font-medium" scope='col'>Title</th>
                 <th className="px-6 py-4 font-medium" scope='col'>Status</th>
@@ -75,16 +93,24 @@ function Dashboard() {
             </tr>
         </thead>
         <tbody>
-            {posts.map((post) => (
+            {sortedPosts.map((post) => (
                 <tr key={post.id}
                   className='border-t border-gray-200  hover:bg-gray-50 '>
                     <td className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap'>{post.title}</td>
                     <td className='px-6 py-4'><span 
-                      className='inline-flex items-center px-2.5 py-0.5 rounded-full font-medium'>
+                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full font-medium`}
+                      style={{
+                        backgroundColor: `var(--color-${post.published ? 'published' : 'draft'}, ${post.published ? '#38bdf8' : '#e5e7eb'})`
+                      }}>
                         {post.published ? 'Published' : 'Draft'}</span></td>
-                    <td className='px-6 py-4 text-right space-x-4'>
+                    <td className='px-6 py-4 text-right space-x-4 text-indigo-600'>
                         <button 
-                          className='font-medium text-primary hover:underline' 
+                          className='font-medium hover:underline' 
+                          onClick={() => handlePublishToggle(post.id)}>
+                            {post.published ? 'Draft' : 'Publish'}
+                        </button>
+                        <button 
+                          className='font-medium text-[var(--color-primary)] hover:underline' 
                           onClick={() => handleEditPost(post.id)}>
                             Edit
                         </button>
@@ -101,7 +127,7 @@ function Dashboard() {
       {editingPost && (
 
       <Modal isVisible={showEditModal} onClose={() => setShowEditModal(false)}>
-        <div className='p-4 sm:p-7'>
+        <div className='py-4 px-2 sm:p-7'>
           <div className='flex justify-between items-start mb-6'>
             <h2 className='text-2xl font-bold'>Edit Post</h2>
             <button className="text-slate-500 hover:bg-slate-200 rounded-4xl p-1" onClick={() => setShowEditModal(false)}>
