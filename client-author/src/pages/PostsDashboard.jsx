@@ -2,10 +2,11 @@ import { useState } from "react";
 import Dashboard from "../components/Dashboard";
 import { useCreatePost } from "../hooks/usePosts";
 import { useAuth } from "../hooks/useAuth";
+import Modal from "../components/Modal";
 
 function PostsDashboard() {
-    const [showCreateForm, setShowCreateForm] = useState(false);
-    const [newPost, setNewPost] = useState({ title: '', content: '' });
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [newPost, setNewPost] = useState({ title: '', content: '', published: false});
     const createPostMutation = useCreatePost();
     const { userId } = useAuth();
 
@@ -19,12 +20,12 @@ function PostsDashboard() {
         try {
             await createPostMutation.mutateAsync({
                 title: newPost.title,
-                body: newPost.content,    // Backend expects 'body' not 'content'
-                authorId: userId,         // Backend expects 'authorId' not 'userId'
-                published: false           // Backend requires 'published' field
+                body: newPost.content,    
+                authorId: userId,         
+                published: newPost.published          
             });
-            setNewPost({ title: '', content: '' });
-            setShowCreateForm(false);
+            setNewPost({ title: '', content: '', published:false });
+            setShowCreateModal(false);
         } catch (error) {
             console.error('Failed to create post:', error);
         }
@@ -36,55 +37,68 @@ function PostsDashboard() {
                 <h2 className="text-2xl font-bold">Your Posts</h2>
                 <button 
                     className="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 md:px-4 md:py-2 rounded-md"
-                    onClick={() => setShowCreateForm(!showCreateForm)}
+                    onClick={() => setShowCreateModal(true)}
                 >
-                    {showCreateForm ? 'Cancel' : '+ New Post'}
+                    New Post
                 </button>
             </div>
 
-            {showCreateForm && (
-                <div>
-                    <h3>Create New Post</h3>
+
+            <Modal isVisible={showCreateModal} onClose={() => setShowCreateModal(false)}>
+                <div className='py-7 px-2 sm:px-6 lg:px-7'>
+                    <div className='flex justify-between items-start mb-6'>
+                        <h2 className='text-2xl font-bold'>Create new Post</h2>
+                        <button className="text-slate-500 hover:bg-slate-200 rounded-4xl p-1" onClick={() => setShowCreateModal(false)}>
+                            <span className="material-symbols-outlined">close</span>
+                        </button>
+                    </div>
                     <form onSubmit={handleCreatePost}>
                         <div>
-                            <label>
-                                Title:
-                            </label>
-                            <input
+                            <label className='block text-md font-medium text-slate-700 mb-1'>
+                                Title
+                                <input
+                                className='mt-1 p-3 w-full bg-slate-100 border-slate-300  rounded-lg focus:ring-blue-400 focus:border-blue-400 text-slate-900'
                                 type="text"
                                 value={newPost.title}
                                 onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
-                                placeholder="Enter post title..."
-                            />
-                        </div>
-                        <div>
-                            <label>
-                                Content:
+                                />
                             </label>
-                            <textarea
-                                value={newPost.content}
-                                onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
-                                placeholder="Write your post content..."
-                            />
                         </div>
-                        <div>
-                            <button
-                                type="submit"
-                                disabled={createPostMutation.isPending}
-                            >
-                                {createPostMutation.isPending ? 'Creating...' : 'Create Post'}
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => setShowCreateForm(false)}                          
-                            >
+                        <div className='mt-5'>
+                            <label className='block text-md font-medium text-slate-700 mb-1'>
+                                Content
+                                <textarea
+                                className='mt-1 w-full p-3 bg-slate-100 border-slate-300 rounded-lg focus:ring-0 text-slate-900 resize-y'
+                                value={newPost.body}
+                                onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
+                                />
+                            </label>
+                        </div>
+                        <div className='flex justify-center sm:justify-end gap-3 sm:gap-4 pt-4 mt-5'>
+                            <button 
+                                className='w-[90px] px-5 py-2.5 rounded-lg text-sm font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300'
+                                type="button" 
+                                onClick={() => setShowCreateModal(false)}>
                                 Cancel
+                            </button>
+                            <button 
+                                className=' w-[90px] px-5 py-2.5 rounded-lg text-sm font-semibold bg-emerald-500 text-white hover:bg-green-600'
+                                type="submit"
+                                onClick={() => setNewPost({...newPost, published:false})}
+                                disabled={createPostMutation.isPending}>
+                                Draft
+                            </button>
+                            <button 
+                                className='w-[90px] px-5 py-2.5 rounded-lg text-sm font-semibold bg-blue-500 text-white hover:bg-blue-600'
+                                type="submit"
+                                onClick={() => setNewPost({...newPost, published:true})}
+                                disabled={createPostMutation.isPending}>
+                                Publish
                             </button>
                         </div>
                     </form>
                 </div>
-            )}
-
+            </Modal>
             <Dashboard/>
         </div>
     )
