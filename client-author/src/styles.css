@@ -27,8 +27,8 @@
         --subtle-dark: #a0b1b9;
         --border-light: #dbe2e6;
         --border-dark: #30404a;
-        --color-published: #74faa1;
-        --color-draft: #fdeb84;
+        --color-published: #74fac2;
+        --color-draft: #fff09d;
 
         --breakpoint-xs: 500px;
     }
