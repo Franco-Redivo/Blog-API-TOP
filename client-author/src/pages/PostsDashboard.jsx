@@ -3,6 +3,7 @@ import Dashboard from "../components/Dashboard";
 import { useCreatePost } from "../hooks/usePosts";
 import { useAuth } from "../hooks/useAuth";
 import Modal from "../components/Modal";
+import { Editor } from "@tinymce/tinymce-react";
 
 function PostsDashboard() {
     const [showCreateModal, setShowCreateModal] = useState(false);
@@ -12,6 +13,7 @@ function PostsDashboard() {
 
     const handleCreatePost = async (e) => {
         e.preventDefault();
+
         if (!newPost.title.trim() || !newPost.content.trim()) {
             alert('Please fill in both title and content');
             return;
@@ -54,7 +56,7 @@ function PostsDashboard() {
                     </div>
                     <form onSubmit={handleCreatePost}>
                         <div>
-                            <label className='block text-md font-medium text-slate-700 mb-1'>
+                            <label className='block text-lg font-medium text-slate-700 mb-1'>
                                 Title
                                 <input
                                 className='mt-1 p-3 w-full bg-slate-100 border-slate-300  rounded-lg focus:ring-blue-400 focus:border-blue-400 text-slate-900'
@@ -65,14 +67,31 @@ function PostsDashboard() {
                             </label>
                         </div>
                         <div className='mt-5'>
-                            <label className='block text-md font-medium text-slate-700 mb-1'>
+                            <label className='block text-lg font-medium text-slate-700 mb-1'>
                                 Content
-                                <textarea
-                                className='mt-1 w-full p-3 bg-slate-100 border-slate-300 rounded-lg focus:ring-0 text-slate-900 resize-y'
-                                value={newPost.body}
-                                onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
-                                />
                             </label>
+                            <Editor
+                                tinymceScriptSrc='/tinymce/tinymce.min.js'
+                                licenseKey='gpl'
+                                value={newPost.content}
+                                onEditorChange={(content) => setNewPost({ ...newPost, content })}
+                                init={{
+                                    height: 400,
+                                    menubar: false,
+                                    branding: false,
+                                    plugins: [
+                                        'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
+                                        'preview', 'anchor', 'searchreplace', 'visualblocks', 'code',
+                                        'fullscreen', 'insertdatetime', 'media', 'table', 'code', 'wordcount'
+                                    ],
+                                    toolbar: 'undo redo | blocks | ' +
+                                        'bold italic forecolor | alignleft aligncenter ' +
+                                        'alignright alignjustify | bullist numlist outdent indent | ' +
+                                        'image',
+                                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                                
+                                }}
+                            />          
                         </div>
                         <div className='flex justify-center sm:justify-end gap-3 sm:gap-4 pt-4 mt-5'>
                             <button 
