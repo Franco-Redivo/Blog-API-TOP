@@ -1,0 +1,35 @@
+@import 'tailwindcss';
+
+
+
+@layer base {
+    body {
+        @apply bg-gray-100 text-gray-900;
+    }
+
+    button {
+        @apply cursor-pointer;
+    }
+
+    *{
+        @apply box-border
+    }
+}
+
+@layer theme {
+    :root {
+        --color-primary: #1193d4;
+        --background-light: #f6f7f8;
+        --background-dark: #101c22;
+        --foreground-light: #111618;
+        --foreground-dark: #f0f3f4;
+        --subtle-light: #617c89;
+        --subtle-dark: #a0b1b9;
+        --border-light: #dbe2e6;
+        --border-dark: #30404a;
+        --color-published: #74fac2;
+        --color-draft: #fff09d;
+
+        --breakpoint-xs: 500px;
+    }
+}
