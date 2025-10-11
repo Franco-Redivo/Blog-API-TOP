@@ -6,7 +6,8 @@ const API_URL = 'http://localhost:3000/api';
 export const getUserPosts = async (userId) => {
     try{
         const response = await api.get(`${API_URL}/users/${userId}/posts`);
-        return response.data;
+        const publishedPosts = response.data.filter(post => post.published);
+        return publishedPosts;
     }catch (error) {
         console.error('Error fetching user posts:', error);
         throw error;
@@ -26,7 +27,8 @@ export const getPostById = async (postId) => {
 export const getAllPosts = async () => {
     try{
         const response = await api.get(`${API_URL}/posts`);
-        return response.data;
+        const publishedPosts = response.data.filter(post => post.published);
+        return publishedPosts;
     }catch (error) {
         console.error('Error fetching all posts:', error);
         throw error;
