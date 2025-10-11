@@ -21,3 +21,13 @@ export const loginUser = async (credentials) => {
         throw error;
     }
 }
+
+export const getUserById = async (userId) => {
+    try{
+        const response = await axios.get(`${API_URL}/users/${userId}`);
+        return response.data;
+    }catch (error) {
+        console.error('Error fetching user by ID:', error);
+        throw error;
+    }
+}
