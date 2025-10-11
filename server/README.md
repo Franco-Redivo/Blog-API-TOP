@@ -235,10 +235,6 @@ src/
 └── app.js              # Express app setup
 ```
 
-## License
-
-This project is licensed under the ISC License.
-
 ## Contact
 
 Franco Redivo - [GitHub](https://github.com/Franco-Redivo)
