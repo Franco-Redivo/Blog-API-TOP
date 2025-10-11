@@ -3,8 +3,9 @@ import { useAuth } from './hooks/useAuth';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import NavBar from './components/NavBar';
-import PostList from './pages/PostList';
-import PostDetail from './pages/PostDetail';
+import ProtectedRoute from './components/ProtectedRoute';
+import PostList from './pages/PostsList';
+import PostInfo from './pages/PostInfo';
 import LoadingSpinner from './components/LoadingSpinner';
 
 
@@ -25,7 +26,7 @@ function App() {
             <NavBar />
             <Routes>
               <Route path="/" element={<PostList />} />
-              <Route path="/posts/:id" element={<PostDetail />} />
+              <Route path="/posts/:id" element={<PostInfo />} />
             </Routes>
           </ProtectedRoute>
         } />
