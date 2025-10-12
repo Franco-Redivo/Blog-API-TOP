@@ -7,7 +7,8 @@ export const fetchUserData = async (userId) => {
         const userData = {
             id: user.id,
             name: user.name,
-            email: user.email
+            email: user.email,
+            avatar: user.avatar
         };
         return userData;
     } catch (error) {
@@ -18,5 +19,5 @@ export const fetchUserData = async (userId) => {
 
 export const getRandomImageUrl = (width = 300, height = 200) => {
     // using picsum.photos for random images (index between 0 and 200 to get different images)
-    return `https://picsum.photos/${width}/${height}?random=${Math.floor(Math.random() * 200)}`;
+    return `https://picsum.photos/id/${Math.floor(Math.random() * 200)}/${width}/${height}`;
 }
