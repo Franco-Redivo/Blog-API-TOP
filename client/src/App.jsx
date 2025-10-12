@@ -7,6 +7,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import PostList from './pages/PostsList';
 import PostInfo from './pages/PostInfo';
 import LoadingSpinner from './components/LoadingSpinner';
+import Footer from './components/Footer';
 
 
 function App() {
@@ -23,11 +24,12 @@ function App() {
         <Route path="/register" element={isAuthenticated ? <Navigate to="/" /> : <Register />} />
         <Route path="*" element={
           <ProtectedRoute>
-            <NavBar />
-            <Routes>
-              <Route path="/" element={<PostList />} />
-              <Route path="/posts/:id" element={<PostInfo />} />
-            </Routes>
+              <NavBar />
+              <Routes>
+                <Route path="/" element={<PostList />} />
+                <Route path="/posts/:postId" element={<PostInfo />} />
+              </Routes>
+            <Footer />
           </ProtectedRoute>
         } />
       </Routes>
