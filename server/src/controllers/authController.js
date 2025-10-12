@@ -3,6 +3,7 @@ require('dotenv').config();
 const mutations = require('../models/mutations');
 const userQueries = require('../models/userQueries');
 const bcrypt = require('bcrypt');
+const imageUrls = require('../assets/imageUrls');
 
 async function login(req, res) {
     try{
@@ -24,9 +25,10 @@ async function register(req, res) {
         const { name, email, password } =req.body;
         const existingUser = await userQueries.getUserByEmail(email);
         if(existingUser) return res.status(400).json({ message: 'User already exists' });
+        const avatar = imageUrls[Math.floor(Math.random() * imageUrls.length)];
 
         const hashedPassword = await bcrypt.hash(password, Number(process.env.SALT_ROUNDS));
-        await mutations.createUser({ name, email, password: hashedPassword });
+        await mutations.createUser({ name, email, password: hashedPassword, avatar });
         res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Internal server error' });
