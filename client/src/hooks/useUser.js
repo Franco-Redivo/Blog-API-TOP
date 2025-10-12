@@ -1,5 +1,5 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { loginUser, registerUser } from '../services/users';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { loginUser, registerUser, getUserById } from '../services/users';
 import { useAuth } from './useAuth';
 
 export const useLogin = () => {
@@ -30,3 +30,13 @@ export const useRegister = () => {
         }
     });
 }
+
+export const useUser = (userId) => {
+    return useQuery({
+        queryKey: ['user', userId],
+        queryFn: () => getUserById(userId),
+        enabled: !!userId,
+        staleTime: 10 * 60 * 1000, // 10 minutes
+        cacheTime: 30 * 60 * 1000 // 30 minutes
+    });
+};
