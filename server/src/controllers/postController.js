@@ -27,7 +27,8 @@ async function createPost(req, res) {
         
         const { title, body, published } = req.body;
         const authorId = req.user.id;
-        await mutations.createPost({ title, body, authorId, published });
+        const image = `https://picsum.photos/id/${Math.floor(Math.random() * 200)}/300/200`
+        await mutations.createPost({ title, body, authorId, published, image });
         res.status(201).json({ message: 'Post created successfully' });
     } catch (error) {
         console.error(error);
