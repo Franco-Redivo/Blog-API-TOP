@@ -1,4 +1,4 @@
-import { fetchUserData, getRandomImageUrl } from "../utils/queryUtils";
+import { fetchUserData } from "../utils/queryUtils";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import LoadingSpinner from "./LoadingSpinner";
@@ -44,7 +44,7 @@ function PostCard({ post }) {
                 </div>
             </div>
             <div className="flex-shrink-0 flex justify-center md:justify-start">
-                <img className="aspect-[4/3] sm:w-120 sm:h-80 md:w-48 md:h-full lg:w-80 object-cover rounded-md" src={getRandomImageUrl()} alt="Random image from Picsum"/>
+                <img className="aspect-[4/3] sm:w-120 sm:h-80 md:w-48 md:h-full lg:w-80 object-cover rounded-md" src={post.image} alt="Random image from Picsum"/>
             </div>
         </article>
     )
