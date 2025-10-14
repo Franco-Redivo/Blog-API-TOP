@@ -1,5 +1,6 @@
 import { useAuth } from '../hooks/useAuth'
 import { useUser } from '../hooks/useUser';
+import { Link } from 'react-router-dom';
 
 function NavBar () {
     const { user, logout } = useAuth()
@@ -8,7 +9,7 @@ function NavBar () {
     return (
         <nav className="flex justify-between items-center p-4 w-full bg-white text-black shadow-md h-16">
         <div>
-            <h1 className="text-1xl md:text-2xl font-bold">Bloggr</h1>
+            <Link className="text-1xl md:text-2xl font-bold cursor-pointer" to="/">Bloggr</Link>
         </div>    
         <div className='flex items-center space-x-2 md:space-x-4'>
             <button 
