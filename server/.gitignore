@@ -2,3 +2,4 @@ node_modules
 .env
 /src/generated/prisma
 user-info.txt
+PROJECT_EXPLANATION.md
